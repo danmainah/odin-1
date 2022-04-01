@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
-const server = http.createServer(function (req, res) {
+http.createServer(function (req, res) {
     const path = url.parse(req.url, true);
     const filename = "." + path.pathname;
     fs.readFile(filename, (err, data) => {
@@ -14,8 +14,4 @@ const server = http.createServer(function (req, res) {
         res.write(data);
         return res.end();
     });
-  });
-
-  server.listen(3000, () => {
-    console.log('Server started! --- listening on port 3000')
-  });
+  }).listen(3000);

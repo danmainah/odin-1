@@ -2,10 +2,10 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 
-http.createServer(function (req, res) {
-    let path = url.parse(req.url, true);
-    let filename = "." + path.blog;
-    fs.readFileSync(filename, (err, data) => {
+const server = http.createServer(function (req, res) {
+    const path = url.parse(req.url, true);
+    const filename = "." + path.pathname;
+    fs.readFile(filename, (err, data) => {
         if(err){
             res.writeHead(404, {"Content-Type": "text/html"});
             res.end("404 Not Found");
@@ -14,4 +14,8 @@ http.createServer(function (req, res) {
         res.write(data);
         return res.end();
     });
-  }).listen(8080);
+  });
+
+  server.listen(3000, () => {
+    console.log('Server started! --- listening on port 3000')
+  });

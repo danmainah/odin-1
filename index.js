@@ -1,17 +1,20 @@
-const http = require('http');
-const fs = require('fs');
-const url = require('url');
+const express = require('express');
+const path = require('path');
 
-http.createServer(function (req, res) {
-    const path = url.parse(req.url, true);
-    const filename = "." + path.pathname;
-    fs.readFile(filename, (err, data) => {
-        if(err){
-            res.writeHead(404, {"Content-Type": "text/html"});
-            res.end("404 Not Found");
-        }
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.write(data);
-        return res.end();
-    });
-  }).listen(3000);
+const app = express()
+
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname,'index.html'));
+})
+
+app.get('/about', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'about.html'));
+})
+
+app.get('/contact', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'contact-me.html'));
+})
+
+app.listen(3000, () => {
+    console.log('App listening on port 3000')
+});
